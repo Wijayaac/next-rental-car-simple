@@ -25,3 +25,24 @@ export const getCarsList = async () => {
 	const data = await request(MASTER_URL, query)
 	return data
 }
+
+export const createBooking = async (formValue: any) => {
+	const mutationQuery = gql`
+		mutation CreateBooking {
+			createBooking(data: {
+				pickupDate: "`+ formValue.pickUpDate + `", 
+        pickupTime: "`+ formValue.pickUpTime + `", 
+        dropOffDate: "`+ formValue.dropOffDate + `", 
+        dropOffTime: "`+ formValue.dropOffTime + `", 
+        contactNumber: "`+ formValue.contactNumber + `", 
+        carId: {connect: {id: "`+ formValue.carId + `"}}}
+			)
+			{
+				id
+			}
+		}
+	`
+
+	const result = await request(MASTER_URL, mutationQuery)
+	return result
+}
